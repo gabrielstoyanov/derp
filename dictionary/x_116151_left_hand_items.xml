@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Items" max_length="40" name="x_116151_left_hand_items" type="collection">
+        <element label="Form" max_length="32" name="form" reference="sc_cat_item" type="reference"/>
+        <element label="Link" max_length="1024" name="link" type="url"/>
+        <element choice="3" default="form" label="Link type" max_length="40" name="link_type" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="Form" sequence="0" value="form"/>
+                <element inactive_on_update="false" label="Page" sequence="100" value="page"/>
+                <element inactive_on_update="false" label="External link" sequence="200" value="external_link"/>
+            </choice>
+        </element>
+        <element display="true" label="Name" mandatory="true" max_length="40" name="name" type="string"/>
+        <element label="Page" max_length="32" name="page" reference="sp_page" type="reference"/>
+        <element label="Parent" mandatory="true" max_length="32" name="parent" reference="x_116151_left_hand_subcategory" type="reference"/>
+        <index name="index">
+            <element name="parent"/>
+        </index>
+        <index name="index2">
+            <element name="form"/>
+        </index>
+        <index name="index3">
+            <element name="page"/>
+        </index>
+    </element>
+</database>

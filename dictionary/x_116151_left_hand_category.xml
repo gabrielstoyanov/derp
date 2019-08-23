@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Category" max_length="40" name="x_116151_left_hand_category" type="collection">
+        <element label="Homepage" max_length="32" name="homepage" reference="sp_page" type="reference"/>
+        <element label="Name" max_length="40" name="name" type="string"/>
+        <index name="index">
+            <element name="homepage"/>
+        </index>
+    </element>
+</database>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Subcategory" max_length="40" name="x_116151_left_hand_subcategory" type="collection">
+        <element label="Name" max_length="40" name="name" type="string"/>
+        <element label="Parent" mandatory="true" max_length="32" name="parent" reference="x_116151_left_hand_category" type="reference"/>
+        <index name="index">
+            <element name="parent"/>
+        </index>
+    </element>
+</database>
