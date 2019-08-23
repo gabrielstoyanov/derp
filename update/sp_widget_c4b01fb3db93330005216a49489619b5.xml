@@ -5,6 +5,7 @@
   /* widget controller */
   var c = this;
 	$scope.data = c.data;
+	console.log($scope.data);
 }]]></client_script>
         <controller_as>c</controller_as>
         <css/>
@@ -24,19 +25,24 @@
         <script><![CDATA[(function() {
   /* populate the 'data' object */
   /* e.g., data.table = $sp.getValue('table'); */
-	var pageId = $sp.getValue('id');
-	console.log('pageId', pageId);
+	var pageId = $sp.getParameter('id');
+	console.log('pageId' + pageId);
 	data.subcats = {};
 	
 	
 	
 	var category = new GlideRecord('x_116151_left_hand_category');
-	if(category.get('homepage', pageId)) {
+	category.addQuery('homepage.id', pageId);
+	category.query();
+	
+	if(category.next()) {
+		console.log('we got the category');
 		var subcats = new GlideRecord('x_116151_left_hand_subcategory');
 		subcats.addQuery('parent', category.sys_id + '');
 		subcats.query();
 		
 		while(subcats.next()) {
+			console.log('we got subcategories');
 			data.subcats[subcats.sys_id + ''] = {
 				name: subcats.name + '',
 				items: []
@@ -51,8 +57,9 @@
 		
 		while(items.next()) {
 			var link;
-			
-			switch(items.link_type + '') {
+			var type = items.link_type + '';
+			console.log(type);
+			switch(type) {
 				case 'form':
 					link = '?id=sc_cat_item&sys_id=' + items.form;
 					break;
@@ -66,7 +73,7 @@
 			
 			data.subcats[items.parent + ''].items.push({
 				name: items.name + '',
-				link: items.link + ''
+				link: link
 			});
 		}
 	}
@@ -76,34 +83,35 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-08-23 11:18:05</sys_created_on>
         <sys_id>c4b01fb3db93330005216a49489619b5</sys_id>
-        <sys_mod_count>3</sys_mod_count>
+        <sys_mod_count>15</sys_mod_count>
         <sys_name>Left Hand Menu</sys_name>
         <sys_package display_value="Left Hand Nav" source="x_116151_left_hand">80dc43b7db13330005216a49489619a2</sys_package>
         <sys_policy/>
         <sys_scope display_value="Left Hand Nav">80dc43b7db13330005216a49489619a2</sys_scope>
         <sys_update_name>sp_widget_c4b01fb3db93330005216a49489619b5</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-08-23 11:31:48</sys_updated_on>
-        <template><![CDATA[<div class="panel-group">
+        <sys_updated_on>2019-08-23 12:01:29</sys_updated_on>
+        <template><![CDATA[<p> raga raga </p>
+<div class="panel-group">
     <div ng-repeat="(id, subcat) in data.subcats" class="panel panel-default">
-        <div class="panel-heading tab">
-      		<h4 class="panel-title upper_border">
-                <a>
-                    ${{{ subcat.name }}}
-                </a>
-            </h4>
-        </div>
-        <div class="panel-collapse collapse" role="tabpanel">
+        <div ng-if="subcat.items.length > 0">
+        	<div class="panel-heading tab">
+                <h4 class="panel-title upper_border">
+                    <a>
+                        ${{{ subcat.name }}}
+                    </a>
+                </h4>
+            </div>
             <div class="panel-body">
                 <ul>
-                	<li ng-repeat="item in subcat.items">
-                    	<a href="{{item.link}}">
-                        	{{item.name}}         
+                    <li ng-repeat="item in subcat.items">
+                        <a href="{{item.link}}">
+                            {{item.name}}         
                         </a>
-                  	</li>
-              	</ul>
-            </div>
-        </div>
+                    </li>
+                </ul>
+            </div>  
+      	</div>
     </div>
 </div>]]></template>
     </sp_widget>
